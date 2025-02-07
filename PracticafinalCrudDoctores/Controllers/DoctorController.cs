@@ -21,6 +21,12 @@ namespace PracticafinalCrudDoctores.Controllers
             Doctor doctor = this.repo.FindDoctor(id);
             return View(doctor);
         }
+        public async Task< IActionResult> CreateDoctor()
+        {
+            List<string> listaEspecialidades = await this.repo.GetEspecialidadesDoctorAsync();
+            return View(listaEspecialidades);
+        }
+        [HttpPost]
         public async Task<IActionResult>CreateDoctor(int idHospital, string apellido, string especialidad, int salario)
         {
             await this.repo.InsertDoctorAsync(idHospital,apellido, especialidad, salario);

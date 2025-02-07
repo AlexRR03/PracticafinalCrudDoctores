@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using System.Numerics;
 using Microsoft.Data.SqlClient;
 using PracticafinalCrudDoctores.Models;
+using System.Collections.Specialized;
 namespace PracticafinalCrudDoctores.Rpositories
 {
     public class RepositoryDoctor
@@ -14,7 +15,7 @@ namespace PracticafinalCrudDoctores.Rpositories
         SqlDataReader reader;
         #region SqlQuerys
             //        create procedure SP_INSERT_DOCTOR
-            //(@idHospital int, @idDoctor int, @apellido nvarchar(50), @especialidad nvarchar(50), @salario int)
+            //(@idHospital int,  @apellido nvarchar(50), @especialidad nvarchar(50), @salario int)
 
             //as
             //	declare @nextId int
@@ -80,7 +81,21 @@ namespace PracticafinalCrudDoctores.Rpositories
             await this.cn.CloseAsync();
             this.com.Parameters.Clear();
         }
-
+        public async Task<List<string>> GetEspecialidadesDoctorAsync()
+        {
+            string sql = "select distinct(ESPECIALIDAD)  from DOCTOR";
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            await this.cn.OpenAsync();
+            this.reader = await this.com.ExecuteReaderAsync();
+            List<string> listaespecialidades = new List<string>();
+            while (await this.reader.ReadAsync())
+            {
+                listaespecialidades.Add(this.reader["ESPECIALIDAD"].ToString());
+            }
+            await this.cn.CloseAsync();
+            return listaespecialidades;
+        }
         
     }
 }
