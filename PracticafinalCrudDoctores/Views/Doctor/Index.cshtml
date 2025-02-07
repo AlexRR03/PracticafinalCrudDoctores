@@ -1,0 +1,30 @@
+﻿@model List<Doctor>
+
+	<h1>Lista de Doctores</h1>
+<table class="table  table-hover">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Apellido</th>
+			<th>Hospital</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (Doctor doctor in Model)
+		{
+			<tr>
+				<td>@doctor.IdDoctor</td>
+				<td>@doctor.Apellido</td>
+				@if(doctor.NombreHospital == null){
+					<td>Desempleado</td>
+				}else{
+					<td>@doctor.NombreHospital</td>
+				}
+				
+				<td>
+					 <a asp-controller="Doctor" asp-action="DetailsDoctor" asp-route-id="@doctor.IdDoctor" class="btn btn-outline-info">Detalles</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

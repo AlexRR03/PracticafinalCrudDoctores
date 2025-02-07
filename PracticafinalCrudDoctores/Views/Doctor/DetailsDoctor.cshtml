@@ -1,0 +1,19 @@
+﻿@model Doctor
+
+<h1>Doctor: @Model.IdDoctor</h1>
+
+<p>
+	<a asp-controller="Doctor" asp-action="Index" class="btn btn-outline-danger">Volver</a>
+</p>
+
+<ul class="list-group">
+	<li class="list-group-item">Apellido: @Model.Apellido</li>
+	<li class="list-group-item">Departamento: @Model.Especialidad</li>
+	<li class="list-group-item">Salario: @Model.Salario</li>
+	@if(Model.NombreHospital == null){
+		<li class="list-group-item">Desempleados</li>
+	}else{ 
+		<li class="list-group-item">Hospital: @Model.NombreHospital</li>
+	}
+	@* <li class="list-group-item"><a asp-controller="Enfermos" asp-action="Delete" asp-route-inscripcion="@Model.Inscripcion" class="btn btn-outline-danger">Eliminar</a></li> *@
+</ul>
