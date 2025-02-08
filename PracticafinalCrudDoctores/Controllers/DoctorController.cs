@@ -7,9 +7,11 @@ namespace PracticafinalCrudDoctores.Controllers
     public class DoctorController : Controller
     {
         RepositoryDoctor repo;
+        RepositoryHospital repoHos;
         public DoctorController()
         {
             this.repo = new RepositoryDoctor();
+            this.repoHos = new RepositoryHospital();
         }
         public IActionResult Index()
         {
@@ -21,14 +23,16 @@ namespace PracticafinalCrudDoctores.Controllers
             Doctor doctor = this.repo.FindDoctor(id);
             return View(doctor);
         }
-        public async Task< IActionResult> CreateDoctor()
+        public IActionResult CreateDoctor()
         {
-            List<string> listaEspecialidades = await this.repo.GetEspecialidadesDoctorAsync();
-            return View(listaEspecialidades);
+            ViewData["ESPECIALIDADES"] = this.repo.GetEspecialidadesDoctor();
+            List<Hospital> listaHospitales = this.repoHos.GetHospitales();
+            return View(listaHospitales);
         }
         [HttpPost]
         public async Task<IActionResult>CreateDoctor(int idHospital, string apellido, string especialidad, int salario)
         {
+            ViewData["ESPECIALIDADES"] = this.repo.GetEspecialidadesDoctor();
             await this.repo.InsertDoctorAsync(idHospital,apellido, especialidad, salario);
             return RedirectToAction("Index");
         }

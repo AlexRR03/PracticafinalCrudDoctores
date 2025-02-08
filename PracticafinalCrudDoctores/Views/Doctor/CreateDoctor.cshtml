@@ -1,12 +1,14 @@
-﻿@model List<string> 
-
+﻿@{
+	@model List<Hospital>;
+	List<string> especialidades = ViewData["ESPECIALIDADES"] as List<string>;
+}
 <h1>Registrar Doctor</h1>
 
 <form method="post">
     <div class="mb-3">
         <label class="form-label">Especialidad:</label>
         <select class="form-select" name="especialidad">
-           @foreach(string especialidad in Model)
+           @foreach(string especialidad in especialidades)
            {
                 <option value="@especialidad">@especialidad</option>
            }
@@ -19,6 +21,15 @@
     <div class="mb-3">
         <label class="form-label">Salario:</label>
         <input type="text" class="form-control" name="salario" >
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Hospital:</label>
+        <select class="form-select" name="idhospital">
+            @foreach (Hospital hospital in Model)
+            {
+                <option value="@hospital.IdHospital">@hospital.Nombre</option>
+            }
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

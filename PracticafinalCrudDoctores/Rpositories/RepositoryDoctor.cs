@@ -26,7 +26,7 @@ namespace PracticafinalCrudDoctores.Rpositories
         #endregion
         public RepositoryDoctor()
         {
-            string cnString = @"Data Source=LOCALHOST\DESARROLLO;Initial Catalog=HOSPITAL;Persist Security Info=True;User ID=sa;Encrypt=True;Trust Server Certificate=True";
+            string cnString = @"Data Source=LOCALHOST\SQLEXPRESS;Initial Catalog=HOSPITALES;Persist Security Info=True;User ID=sa;Encrypt=True;Trust Server Certificate=True";
             string sql = "select D.HOSPITAL_COD,D.DOCTOR_NO,D.APELLIDO,D.ESPECIALIDAD,D.SALARIO,H.NOMBRE from DOCTOR D\r\nleft join HOSPITAL H\r\non H.HOSPITAL_COD = D.HOSPITAL_COD";
             SqlDataAdapter adapter = new SqlDataAdapter(sql,cnString);
             this.tablaDr = new DataTable();
@@ -81,20 +81,10 @@ namespace PracticafinalCrudDoctores.Rpositories
             await this.cn.CloseAsync();
             this.com.Parameters.Clear();
         }
-        public async Task<List<string>> GetEspecialidadesDoctorAsync()
+        public List<string> GetEspecialidadesDoctor()
         {
-            string sql = "select distinct(ESPECIALIDAD)  from DOCTOR";
-            this.com.CommandType = CommandType.Text;
-            this.com.CommandText = sql;
-            await this.cn.OpenAsync();
-            this.reader = await this.com.ExecuteReaderAsync();
-            List<string> listaespecialidades = new List<string>();
-            while (await this.reader.ReadAsync())
-            {
-                listaespecialidades.Add(this.reader["ESPECIALIDAD"].ToString());
-            }
-            await this.cn.CloseAsync();
-            return listaespecialidades;
+           var consulta = (from datos in this.tablaDr.AsEnumerable() select datos.Field<string>("ESPECIALIDAD")).Distinct();
+            return consulta.ToList(); 
         }
         
     }
